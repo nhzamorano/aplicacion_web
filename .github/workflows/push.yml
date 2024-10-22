@@ -26,7 +26,7 @@ jobs:
         with:
           context: ./database
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/database:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/aplicacion_web/database:latest
 
       # Build and push Web App image
       - name: Build and push Web App image
@@ -34,7 +34,7 @@ jobs:
         with:
           context: ./webapp
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/appweb:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/aplicacion_web/appweb:latest
 
       # Build and push Proxy image
       - name: Build and push Proxy image
@@ -42,6 +42,6 @@ jobs:
         with:
           context: ./proxy
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/proxy:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/aplicacion_web/proxy:latest
 
 

@@ -4,6 +4,7 @@ services:
 
   database:
     build: ./database
+    image: nhzamorano/aplicacion_web:database # Etiqueta para la base de datos
     environment:
       POSTGRES_DB: productdb
       POSTGRES_USER: admin
@@ -12,14 +13,16 @@ services:
       - pgdata:/var/lib/postgresql/data 
 
   webapp:
-    build: ./webapp 
+    build: ./webapp
+    image: nhzamorano/aplicacion_web:webapp # Etiqueta para la aplicación web
     environment:
       - DATABASE_URL=postgresql://admin:adminpass@database/productdb
     depends_on:
-      - database 
+      - database
 
   proxy:
-    build: ./proxy 
+    build: ./proxy
+    image: nhzamorano/aplicacion_web:proxy # Etiqueta para el proxy
     ports:
       - "80:80"
     depends_on:
