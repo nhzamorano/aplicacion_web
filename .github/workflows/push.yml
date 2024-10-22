@@ -1,4 +1,3 @@
-#Deploy
 name: Deploy to Cluster
 on:
   push:
@@ -21,13 +20,28 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build and push Docker image
-      - name: Build and push Docker image
+      # Build and push Database image
+      - name: Build and push Database image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./database
           push: true
-          tags: |
-            ${{ github.repository }}:${{ github.sha }}
-            ${{ github.repository }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/database:latest
+
+      # Build and push Web App image
+      - name: Build and push Web App image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./appweb
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/appweb:latest
+
+      # Build and push Proxy image
+      - name: Build and push Proxy image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./proxy
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/proxy:latest
+
 
