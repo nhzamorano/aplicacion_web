@@ -32,7 +32,7 @@ jobs:
       - name: Build and push Web App image
         uses: docker/build-push-action@v3
         with:
-          context: ./appweb
+          context: ./webapp
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/appweb:latest
 
