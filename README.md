@@ -13,8 +13,8 @@ Realizada por:
 - Natanael Herrera
 
 # Caracteristicas
-La aplicacion consta de tres servicios uno de base de datos en postgres, una applicacion web basada en python y flask y un servicio
-proxy sobre nginex el cual es el que esta de frente de la red.
+La aplicacion consta de tres servicios: uno de base de datos en postgres, una applicacion web basada en python usando flask y un servicio
+proxy sobre nginx el cual es el que esta de frente de la red.
 
 # Licencia
 GNU General Public License (GPL)
