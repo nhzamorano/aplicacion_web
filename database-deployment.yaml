@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yml
+    kompose.version: 1.21.0 (992df58d8)
+  name: database
+  labels:
+    io.kompose.service: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: database
+    spec:
+      containers:
+      - name: database
+        image: docker.io/library/database:latest
+        imagePullPolicy: IfNotPresent  # Cambia a Always si deseas obtener la última versión siempre
+        env:
+        - name: POSTGRES_DB
+          value: productdb
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: adminpass
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: pgdata
+      restartPolicy: Always
+      volumes:
+      - name: pgdata
+        persistentVolumeClaim:
+          claimName: pgdata

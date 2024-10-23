@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yml
+    kompose.version: 1.21.0 (992df58d8)
+  name: webapp
+  labels:
+    io.kompose.service: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webapp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: docker.io/library/webapp:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DATABASE_URL
+          value: postgresql://admin:adminpass@database/productdb
+        ports:
+        - name: http  # O cualquier nombre que desees para el puerto
+          containerPort: 8080  # Debes agregar containerPort aquí
+          protocol: TCP  # Define el protocolo si es necesario
+      restartPolicy: Always
+      volumes: []

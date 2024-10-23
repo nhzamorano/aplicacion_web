@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yml
+    kompose.version: 1.21.0 (992df58d8)
+  name: proxy
+  labels:
+    io.kompose.service: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: proxy
+  strategy:
+    type: Recreate  # Opcional, pero ayuda a manejar el despliegue de forma controlada
+  template:
+    metadata:
+      labels:
+        io.kompose.service: proxy
+    spec:
+      containers:
+      - name: proxy
+        image: docker.io/library/proxy:latest
+        imagePullPolicy: IfNotPresent  # Cambiar a Always si deseas siempre obtener la última imagen
+        ports:
+        - containerPort: 80
+        resources: {}  # Define aquí los recursos solicitados y límites si es necesario
+      restartPolicy: Always
+      volumes: []  # Puedes dejarlo vacío si no usas volúmenes
